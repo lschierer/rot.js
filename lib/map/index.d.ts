@@ -6,6 +6,7 @@ import EllerMaze from "./ellermaze.js";
 import DividedMaze from "./dividedmaze.js";
 import IceyMaze from "./iceymaze.js";
 import Rogue from "./rogue.js";
+import Irregular from "./irregular.js";
 declare const _default: {
     Arena: typeof Arena;
     Uniform: typeof Uniform;
@@ -15,5 +16,6 @@ declare const _default: {
     DividedMaze: typeof DividedMaze;
     IceyMaze: typeof IceyMaze;
     Rogue: typeof Rogue;
+    Irregular: typeof Irregular;
 };
 export default _default;

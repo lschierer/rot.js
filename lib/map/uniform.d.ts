@@ -35,8 +35,8 @@ export default class Uniform extends Dungeon {
      */
     _generateRoom(): Room | null;
     /**
-     * Generates connectors beween rooms
-     * @returns {bool} success Was this attempt successfull?
+     * Generates connectors between rooms
+     * @returns {bool} success Was this attempt successful?
      */
     _generateCorridors(): boolean;
     /**

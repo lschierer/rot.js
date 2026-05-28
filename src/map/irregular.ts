@@ -10,7 +10,7 @@ interface Options {
 	irregularity: number;       // 0-1: chance a room gets extra sub-rects
 	diagonalChance: number;     // 0-1: chance a corridor uses diagonal segments
 	extraConnections: number;   // extra corridors beyond the spanning tree
-	dugPercentage: number;      // target % of map that's floor (soft limit)
+	dugPercentage: number;      // target % of map that's floor (enforced after initial placement)
 }
 
 const DEFAULT_OPTIONS: Options = {
@@ -56,6 +56,7 @@ export default class Irregular extends Dungeon {
 
 		this._placeRooms();
 		this._connectRooms();
+		this._fillToDugPercentage();
 
 		// Emit the map
 		if (callback) {
@@ -331,6 +332,39 @@ export default class Irregular extends Dungeon {
 			if (y !== y2) y += dy;
 		}
 		this._dig(x2, y2);
+	}
+
+	/** Keep placing rooms and connecting them until dugPercentage coverage is met. */
+	_fillToDugPercentage(): void {
+		const target = this._options.dugPercentage;
+		const total = this._width * this._height;
+		const maxAttempts = 200;
+		let attempts = 0;
+
+		while (this._dug / total < target && attempts < maxAttempts) {
+			attempts++;
+			const room = this._generateRoom();
+			if (!room) continue;
+			if (!this._roomFits(room)) continue;
+			this._carveRoom(room);
+
+			// Connect new room to the nearest existing room
+			const newCenter = room.getCenter();
+			let bestDist = Infinity;
+			let bestCenter: number[] | null = null;
+			for (const existing of this._rooms) {
+				const c = existing.getCenter();
+				const dx = c[0] - newCenter[0];
+				const dy = c[1] - newCenter[1];
+				const d = dx * dx + dy * dy;
+				if (d < bestDist) { bestDist = d; bestCenter = c; }
+			}
+			if (bestCenter) {
+				this._carveCorridor(bestCenter, newCenter);
+			}
+
+			this._rooms.push(room);
+		}
 	}
 
 	/** Mark a cell as dug (floor). */

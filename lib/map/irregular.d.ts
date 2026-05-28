@@ -53,6 +53,8 @@ export default class Irregular extends Dungeon {
     _carveOrthogonalCorridor(x1: number, y1: number, x2: number, y2: number): void;
     /** Carve a straight line (horizontal or vertical). */
     _carveLineSegment(x1: number, y1: number, x2: number, y2: number): void;
+    /** Keep placing rooms and connecting them until dugPercentage coverage is met. */
+    _fillToDugPercentage(): void;
     /** Mark a cell as dug (floor). */
     _dig(x: number, y: number): void;
 }

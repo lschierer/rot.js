@@ -6,5 +6,6 @@ import EllerMaze from "./ellermaze.js";
 import DividedMaze from "./dividedmaze.js";
 import IceyMaze from "./iceymaze.js";
 import Rogue from "./rogue.js";
+import Irregular from "./irregular.js";
 
-export default { Arena, Uniform, Cellular, Digger, EllerMaze, DividedMaze, IceyMaze, Rogue };
+export default { Arena, Uniform, Cellular, Digger, EllerMaze, DividedMaze, IceyMaze, Rogue, Irregular };
